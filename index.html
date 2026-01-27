@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KruMathDev - คลังเครื่องมือครูยุคใหม่</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        body { 
+            font-family: 'Sarabun', sans-serif; 
+            line-height: 1.6; 
+        }
+        .gradient-bg { background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen text-gray-700 flex flex-col">
+
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-laptop-code text-pink-500 text-2xl pt-1"></i>
+                <span class="text-xl font-bold text-gray-800 leading-none">KruMathDev<span class="text-pink-500">.com</span></span>
+            </div>
+            
+            <button class="hidden md:flex items-center space-x-2 bg-gray-100 px-4 py-2 rounded-full text-gray-400 cursor-not-allowed text-sm font-medium" title="ระบบสมาชิก กำลังพัฒนาเร็วๆ นี้">
+                <i class="fa-solid fa-user-circle"></i>
+                <span>เข้าสู่ระบบ (Coming Soon)</span>
+            </button>
+        </div>
+    </nav>
+
+    <header class="text-center py-16 px-4">
+        <h1 class="text-3xl md:text-5xl font-bold text-gray-800 mb-4 leading-tight">
+            เปลี่ยนงานเอกสารยากๆ <br> <span class="text-pink-600">ให้เป็นเรื่องง่ายด้วยคลิกเดียว</span>
+        </h1>
+        <p class="text-lg text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">
+            รวมเครื่องมือช่วยสอนและจัดการงานโรงเรียน พัฒนาโดย "ครูคณิต(ตัวปลอม)ที่รักการเขียนโค้ด" <br class="hidden md:inline">
+            เพื่อคืนเวลาสอนให้ครูไทยทุกคน
+        </p>
+    </header>
+
+    <section class="max-w-6xl mx-auto px-4 pb-20 flex-grow">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6 border-l-4 border-pink-500 pl-3 flex items-center h-8">
+            เครื่องมือที่เปิดให้ใช้งาน
+        </h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition transform hover:-translate-y-1 overflow-hidden border border-gray-100 flex flex-col">
+                <div class="bg-blue-50 p-6 flex justify-center items-center h-40">
+                    <i class="fa-solid fa-coins text-6xl text-blue-500"></i>
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                    <div>
+                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full font-bold">เปิดใช้งานแล้ว ✅</span>
+                        <h3 class="text-xl font-bold text-gray-800 mt-3">ระบบคำนวณแยกธนบัตร</h3>
+                        <p class="text-sm text-gray-500 mt-2 leading-relaxed">ช่วยนับเงินทุนการศึกษา อาหารกลางวัน แยกแบงค์แยกเหรียญให้อัตโนมัติ</p>
+                    </div>
+
+                    <div class="my-4 p-2 bg-gray-50 border border-gray-200 border-dashed rounded text-center text-xs text-gray-400">
+                        <p class="mb-1">[พื้นที่โฆษณา]</p>
+                    </div>
+
+                    <a href="money.html" class="mt-auto block text-center w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition font-bold flex items-center justify-center gap-2">
+                        ใช้งานโปรแกรม <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow border border-gray-100 opacity-90 flex flex-col relative overflow-hidden">
+                <div class="absolute top-0 right-0 bg-pink-500 text-white text-xs px-3 py-1 rounded-bl-lg font-bold z-10">New Idea!</div>
+                
+                <div class="bg-gray-50 p-6 flex justify-center items-center h-40">
+                    <i class="fa-solid fa-file-invoice-dollar text-6xl text-gray-400"></i>
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                    <div>
+                        <span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full font-bold">Coming Soon</span>
+                        <h3 class="text-xl font-bold text-gray-800 mt-3">ระบบบริหารเงินโครงการ & ทะเบียนคุม</h3>
+                        <p class="text-sm text-gray-500 mt-2 mb-4 leading-relaxed">
+                            จัดการงบประมาณโครงการ บันทึกรายรับ-รายจ่าย พร้อมออกรายงานทะเบียนคุมส่งเขตฯ ได้ทันที
+                        </p>
+                    </div>
+                    <button disabled class="mt-auto w-full bg-gray-100 text-gray-400 py-2 rounded-lg cursor-not-allowed text-sm border border-gray-200">
+                        <i class="fa-solid fa-clock mr-1"></i> กำลังพัฒนา... รอติดตาม
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow border border-gray-100 opacity-80 flex flex-col">
+                <div class="bg-gray-50 p-6 flex justify-center items-center h-40">
+                    <i class="fa-solid fa-gamepad text-6xl text-gray-400"></i>
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                    <div>
+                        <span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full font-bold">Coming Soon</span>
+                        <h3 class="text-xl font-bold text-gray-800 mt-3">มินิเกมฝึกสมองคณิตศาสตร์</h3>
+                        <p class="text-sm text-gray-500 mt-2 mb-4 leading-relaxed">กิจกรรมสนุกๆ สำหรับเปิดในคาบว่าง หรือชุมนุมคณิตฯ ให้เด็กๆ ได้ประลองปัญญา</p>
+                    </div>
+                    <button disabled class="mt-auto w-full bg-gray-100 text-gray-400 py-2 rounded-lg cursor-not-allowed text-sm border border-gray-200">
+                        <i class="fa-solid fa-clock mr-1"></i> กำลังพัฒนา... รอติดตาม
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer id="contact" class="bg-white border-t border-gray-200 mt-auto">
+        <div class="max-w-4xl mx-auto px-4 py-12 text-center">
+            
+            <h2 class="text-xl font-bold text-gray-800 mb-2">เกี่ยวกับ KruMathDev</h2>
+            <p class="text-gray-600 text-sm leading-relaxed mb-8">
+                เว็บไซต์นี้ตั้งใจทำขึ้นเพื่อลดภาระงานเอกสาร ให้ครูมีเวลาโฟกัสกับนักเรียนมากขึ้น <br>
+                หากมีข้อเสนอแนะ หรือต้องการจ้างงานพัฒนาโปรแกรม สามารถติดต่อได้ตามช่องทางด้านล่าง
+            </p>
+
+            <div class="bg-gray-50 rounded-2xl p-6 max-w-sm mx-auto border border-gray-100 shadow-sm">
+                <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">ช่องทางติดต่อเรา (Contact Us)</h3>
+                
+                <div class="mb-4">
+                    <p class="text-sm text-gray-500 mb-1">Email สำหรับติดต่องาน:</p>
+                    <a href="mailto:krumathdev@gmail.com" class="text-xl font-bold text-pink-600 hover:text-pink-700 transition break-all">
+                        krumathdev@gmail.com
+                    </a>
+                </div>
+
+                <a href="mailto:krumathdev@gmail.com" class="flex items-center justify-center gap-2 px-5 py-2 bg-white border border-gray-200 hover:border-pink-300 text-gray-700 hover:text-pink-600 rounded-full transition text-sm font-medium shadow-sm">
+                    <i class="fa-solid fa-paper-plane"></i> คลิกเพื่อส่งอีเมลทันที
+                </a>
+            </div>
+
+            <div class="text-xs text-gray-400 mt-10">
+                © 2026 KruMathDev.com All rights reserved. <br>
+                Made with 💖 by Math Teacher who loves Coding.
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

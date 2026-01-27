@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบคำนวณแยกธนบัตรและเหรียญ (Money Allocator)</title>
+    
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Sarabun', sans-serif; background-color: #f3f4f6; }
+        
+        /* Animation for Ad Modal */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .ad-modal { animation: fadeIn 0.3s ease-in-out; }
+
+        @media print {
+            @page {
+                size: A4;
+                margin: 0.5cm;
+            }
+            .no-print { display: none !important; }
+            body { background-color: white; -webkit-print-color-adjust: exact; }
+            .print-grid {
+                display: grid !important;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0.5cm;
+                width: 100%;
+            }
+            .print-card {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+            .ad-banner { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+<nav class="bg-white shadow-sm py-3 px-4 mb-4 no-print">
+        <div class="max-w-5xl mx-auto">
+            <a href="index.html" class="flex items-center gap-2 text-gray-600 hover:text-pink-600 transition font-bold text-sm bg-gray-50 hover:bg-pink-50 px-3 py-2 rounded-lg border border-gray-200 inline-flex">
+                <i class="fa-solid fa-house"></i> กลับหน้าหลัก
+            </a>
+        </div>
+    </nav>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const App = () => {
+            // ข้อมูลเริ่มต้น
+            const [items, setItems] = useState([
+                { id: 1, name: 'ทุนการศึกษา ป.3 (ปี 2568)', amount: 1000, people: 10 },
+                { id: 2, name: 'ค่าถ่ายเอกสาร (เก็บตก)', amount: 25.21, people: 10 },
+                { id: 3, name: 'ค่าสมทบกิจกรรม (เศษ)', amount: 10.39, people: 10 },
+            ]);
+            const [showImport, setShowImport] = useState(false);
+            const [importText, setImportText] = useState('');
+            
+            const [showAdModal, setShowAdModal] = useState(false);
+            const [countdown, setCountdown] = useState(5);
+
+            const denoms = [1000, 500, 100, 50, 20, 10, 5, 2, 1, 0.50, 0.25];
+            
+            useEffect(() => {
+                let timer;
+                if (showAdModal && countdown > 0) {
+                    timer = setTimeout(() => setCountdown(countdown - 1), 1000);
+                }
+                return () => clearTimeout(timer);
+            }, [showAdModal, countdown]);
+
+            // ฟังก์ชันคำนวณแยกแบงก์ (Helper)
+            const calculateBreakdown = (amount) => {
+                let remaining = amount;
+                let breakdown = {};
+                denoms.forEach(d => {
+                    const count = Math.floor(remaining / d);
+                    if (count > 0) {
+                        breakdown[d] = count;
+                        remaining = parseFloat((remaining % d).toFixed(2));
+                    }
+                });
+                return breakdown;
+            };
+
+            // --- CORE LOGIC START ---
+            let grandTotalMoney = 0; // ยอดเงินสดรวมที่เบิกได้จริง (Payable Cash)
+            let totalResidual = 0;   // เศษสตางค์รวมที่เหลือจากทุกรายการ (เอามากองรวมกัน)
+            const totalSummary = denoms.reduce((acc, d) => ({ ...acc, [d]: 0 }), {});
+
+            // 1. คำนวณแยกแต่ละรายการ (เน้นใส่ซองได้จริง)
+            const itemsWithBreakdown = items.map(item => {
+                const perPersonBreakdown = calculateBreakdown(item.amount);
+                
+                // มูลค่าที่จ่ายได้จริงต่อคน (Payable per person)
+                let payablePerPerson = 0;
+                denoms.forEach(d => {
+                    if (perPersonBreakdown[d]) {
+                        payablePerPerson += perPersonBreakdown[d] * d;
+                    }
+                });
+
+                // ยอดรวมจ่ายได้จริงของรายการนี้
+                const totalForItem = payablePerPerson * item.people;
+                grandTotalMoney += totalForItem;
+
+                // เศษที่เหลือของรายการนี้ (ที่ไม่พอจ่ายเป็นเหรียญต่อคน) เก็บเข้ากองกลาง
+                // เช่น 0.21 * 10 คน = 2.10 บาท (ที่หายไปจากซอง)
+                const theoreticalTotal = item.amount * item.people;
+                const residual = theoreticalTotal - totalForItem;
+                totalResidual += residual;
+
+                // นับแบงก์สำหรับรายการนี้
+                const itemTotalDenoms = {};
+                denoms.forEach(d => {
+                    const countPerPerson = perPersonBreakdown[d] || 0;
+                    const totalCount = countPerPerson * item.people;
+                    itemTotalDenoms[d] = totalCount;
+                    totalSummary[d] += totalCount; // บวกเข้ายอดรวมแบงก์
+                });
+
+                return { ...item, itemTotalDenoms, totalForItem, payablePerPerson, residual };
+            });
+
+            // 2. คำนวณ "เงินกองกลาง" (Pooled Change) จากเศษที่รวมกันแล้ว
+            // เช่น เศษรวม 2.10 + 3.90 = 6.00 บาท -> แตกเป็นเหรียญได้
+            let centralFundPayable = 0;
+            let centralFundBreakdown = {};
+            
+            // แก้ไขทศนิยมเล็กน้อยก่อนคำนวณ
+            totalResidual = parseFloat(totalResidual.toFixed(2));
+            
+            if (totalResidual >= 0.25) {
+                centralFundBreakdown = calculateBreakdown(totalResidual);
+                
+                // บวกเหรียญกองกลางเข้ายอดรวมส่งธนาคาร
+                denoms.forEach(d => {
+                    if (centralFundBreakdown[d]) {
+                        totalSummary[d] += centralFundBreakdown[d];
+                        centralFundPayable += centralFundBreakdown[d] * d;
+                    }
+                });
+            }
+
+            // ยอดสุทธิรวมเงินกองกลางแล้ว
+            grandTotalMoney += centralFundPayable;
+            const finalLost = totalResidual - centralFundPayable; // เศษที่หายไปจริงๆ (เช่น 0.10 บาท)
+            // --- CORE LOGIC END ---
+
+            const addItem = () => setItems([...items, { id: Date.now(), name: '', amount: 0, people: 1 }]);
+            
+            const updateItem = (id, field, value) => {
+                const newItems = items.map(item => item.id === id ? { ...item, [field]: value } : item);
+                setItems(newItems);
+            };
+
+            const removeItem = (id) => setItems(items.filter(item => item.id !== id));
+
+            const handleImport = () => {
+                if (!importText.trim()) return;
+                const lines = importText.trim().split('\n');
+                const newItems = lines.map((line, index) => {
+                    let parts = line.split('\t');
+                    if (parts.length < 2) parts = line.split(',');
+                    if (parts.length < 2) {
+                        const match = line.match(/^(.*?)[\s,]+([\d,]+(?:\.\d+)?)[\s,]+(\d+)$/);
+                        if (match) { parts = [match[1], match[2], match[3]]; }
+                        else {
+                            const matchOne = line.match(/^(.*?)[\s,]+([\d,]+(?:\.\d+)?)$/);
+                            if (matchOne) { parts = [matchOne[1], matchOne[2], '1']; } else { return null; }
+                        }
+                    }
+                    const name = parts[0]?.trim() || 'รายการนำเข้า';
+                    const amount = parseFloat((parts[1] || '0').toString().replace(/,/g, '')) || 0;
+                    const people = parseInt((parts[2] || '1').toString().replace(/,/g, '')) || 1;
+                    return { id: Date.now() + index, name, amount, people };
+                }).filter(item => item !== null);
+                setItems([...items, ...newItems]);
+                setImportText('');
+                setShowImport(false);
+            };
+
+            const handlePrintClick = () => { setCountdown(3); setShowAdModal(true); };
+            const confirmPrint = () => { setShowAdModal(false); setTimeout(() => window.print(), 100); };
+            const formatMoney = (num) => num.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+            return (
+                <div className="max-w-4xl mx-auto p-4 md:p-8">
+                    {/* AD Banner Top */}
+                    <div className="ad-banner bg-gray-200 h-24 mb-6 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300 no-print">
+                        <span className="text-gray-400 font-bold text-lg">พื้นที่โฆษณา Banner (Top)</span>
+                    </div>
+
+                    <div className="text-center mb-8 no-print">
+                        <h1 className="text-3xl font-bold text-gray-800">💰 ระบบคำนวณแยกธนบัตรและเหรียญ</h1>
+                        <p className="text-gray-600">Smart Money Allocator for Schools & Organizations</p>
+                    </div>
+
+                    {/* INPUT SECTION */}
+                    <div className="bg-white rounded-lg shadow-md p-6 mb-8 no-print">
+                        <div className="flex flex-col md:flex-row justify-between items-center mb-4 gap-3">
+                            <h2 className="text-xl font-bold text-blue-700">1. รายการเบิกจ่าย</h2>
+                            <div className="flex gap-2">
+                                <button onClick={() => setShowImport(!showImport)} className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded flex items-center gap-2 text-sm shadow">📥 นำเข้า</button>
+                                <button onClick={handlePrintClick} className="bg-gray-800 hover:bg-black text-white px-4 py-2 rounded flex items-center gap-2 text-sm shadow">🖨️ พิมพ์ใบสรุป (A4 Mini)</button>
+                            </div>
+                        </div>
+
+                        {showImport && (
+                            <div className="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                                <p className="text-sm text-yellow-700 mb-2">วางข้อมูลจาก Excel: <b>ชื่อ [Tab] เงิน [Tab] คน</b></p>
+                                <textarea className="w-full h-32 p-2 border rounded font-mono text-sm" value={importText} onChange={(e) => setImportText(e.target.value)} placeholder="ตัวอย่าง: ค่าขนม 20.50 10"></textarea>
+                                <div className="flex gap-2 mt-2">
+                                    <button onClick={handleImport} className="bg-blue-600 text-white px-4 py-2 rounded text-sm">ตกลง</button>
+                                    <button onClick={() => setShowImport(false)} className="bg-gray-300 text-gray-700 px-4 py-2 rounded text-sm">ยกเลิก</button>
+                                </div>
+                            </div>
+                        )}
+                        
+                        <div className="space-y-3">
+                            {items.map((item) => (
+                                <div key={item.id} className="flex flex-col md:flex-row gap-2 items-end md:items-center bg-gray-50 p-3 rounded border hover:bg-gray-50">
+                                    <div className="flex-grow w-full"><label className="text-xs text-gray-500">ชื่อรายการ</label><input type="text" value={item.name} onChange={(e) => updateItem(item.id, 'name', e.target.value)} className="w-full p-2 border rounded" /></div>
+                                    <div className="w-full md:w-32"><label className="text-xs text-gray-500">บาท/คน</label><input type="number" value={item.amount} onChange={(e) => updateItem(item.id, 'amount', parseFloat(e.target.value) || 0)} className="w-full p-2 border rounded text-right" /></div>
+                                    <div className="w-full md:w-24"><label className="text-xs text-gray-500">จำนวน (คน)</label><input type="number" value={item.people} onChange={(e) => updateItem(item.id, 'people', parseInt(e.target.value) || 0)} className="w-full p-2 border rounded text-center" /></div>
+                                    <button onClick={() => removeItem(item.id)} className="bg-red-100 text-red-600 hover:bg-red-200 p-2 rounded w-full md:w-auto text-sm">ลบ</button>
+                                </div>
+                            ))}
+                        </div>
+                        <button onClick={addItem} className="mt-4 w-full py-2 border-2 border-dashed border-blue-300 text-blue-600 rounded hover:bg-blue-50">+ เพิ่มรายการใหม่</button>
+                    </div>
+
+                    {/* SUMMARY SECTION */}
+                    <div className="bg-white rounded-lg shadow-md p-6 mb-8 no-print border-t-4 border-blue-600">
+                        <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                            <span>📊 สรุปยอดรวม (สำหรับเบิกธนาคาร)</span>
+                        </h2>
+                        
+                        <div className="flex flex-col md:flex-row gap-6">
+                            <div className="bg-blue-50 p-6 rounded-lg text-center flex-1 flex flex-col justify-center items-center border border-blue-100">
+                                <div className="text-gray-600 text-sm mb-1">ยอดเงินสดที่ต้องเบิกทั้งหมด</div>
+                                <div className="text-4xl font-bold text-blue-700">{formatMoney(grandTotalMoney)}</div>
+                                <div className="text-gray-500 text-sm mt-1">บาท</div>
+                                
+                                {centralFundPayable > 0 && (
+                                    <div className="mt-3 text-xs text-green-600 bg-green-100 px-3 py-1 rounded-full">
+                                        รวมเงินกองกลาง (จากเศษสตางค์): {formatMoney(centralFundPayable)} บ.
+                                    </div>
+                                )}
+                                {finalLost > 0.009 && (
+                                    <div className="mt-1 text-xs text-red-400">
+                                        *ปัดเศษทิ้ง (ไม่มีเหรียญ): {formatMoney(finalLost)} บ.
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className="flex-[2] overflow-x-auto">
+                                <table className="w-full text-sm">
+                                    <thead>
+                                        <tr className="bg-gray-100 text-gray-600 uppercase text-xs">
+                                            <th className="py-2 px-3 text-left">ชนิดเงิน</th>
+                                            <th className="py-2 px-3 text-center">จำนวน (ใบ/เหรียญ)</th>
+                                            <th className="py-2 px-3 text-right">รวม (บาท)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {denoms.map(d => totalSummary[d] > 0 && (
+                                            <tr key={d} className="border-b border-gray-100 hover:bg-gray-50">
+                                                <td className="py-2 px-3 font-medium">{d >= 20 ? `ธนบัตร ${d}` : `เหรียญ ${d < 1 ? d*100+' สต.' : d}`}</td>
+                                                <td className="py-2 px-3 text-center font-bold text-blue-600">{totalSummary[d].toLocaleString()}</td>
+                                                <td className="py-2 px-3 text-right">{(totalSummary[d] * d).toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="ad-banner bg-gray-200 h-64 mb-6 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300 no-print">
+                        <span className="text-gray-400 font-bold text-lg">พื้นที่โฆษณา Banner (Bottom)</span>
+                    </div>
+
+                    {showAdModal && (
+                        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4 ad-modal no-print">
+                            <div className="bg-white rounded-lg shadow-2xl max-w-lg w-full">
+                                <div className="bg-gray-100 px-4 py-2 border-b flex justify-between items-center"><span className="text-xs font-bold text-gray-500">ผู้สนับสนุน</span><button onClick={() => setShowAdModal(false)}>✕</button></div>
+                                <div className="p-8 h-64 bg-gray-50 flex items-center justify-center flex-col"><div className="text-gray-400 font-bold text-xl mb-2">พื้นที่โฆษณาคั่น</div><p className="text-gray-500 text-sm">สนับสนุนให้เราทำเว็บดีๆ ต่อไป</p></div>
+                                <div className="p-4 border-t flex justify-end gap-3"><button onClick={confirmPrint} disabled={countdown > 0} className={`px-6 py-2 rounded font-bold ${countdown > 0 ? 'bg-gray-300' : 'bg-blue-600 text-white'}`}>{countdown > 0 ? `รอ ${countdown} วิ...` : 'ข้ามและพิมพ์'}</button></div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* --- PRINT GRID --- */}
+                    <div className="hidden print-grid">
+                        {/* 1. Grand Total Card */}
+                        <div className="print-card border-2 border-dashed border-gray-400 p-3 rounded-md bg-gray-50 text-xs h-full flex flex-col">
+                            <div className="bg-gray-800 text-white text-center py-1 rounded-sm mb-2 font-bold">★ ยอดรวมส่งธนาคาร</div>
+                            <div className="text-center mb-3">
+                                <div className="text-[10px] text-gray-500">เงินสดที่เบิกทั้งหมด</div>
+                                <div className="text-xl font-bold text-gray-900">{formatMoney(grandTotalMoney)}</div>
+                                <div className="text-[10px] text-gray-500">บาท</div>
+                            </div>
+                            
+                            {/* Adjusted table to match screen summary layout */}
+                            <table className="w-full text-[9px] mt-auto">
+                                <thead>
+                                    <tr className="border-b border-gray-300 text-gray-500">
+                                        <th className="text-left font-normal py-0.5">รายการ</th>
+                                        <th className="text-right font-normal py-0.5">รวมเงิน (บาท)</th>
+                                        <th className="text-right font-normal py-0.5">จำนวน (ใบ/เหรียญ)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {denoms.map(d => totalSummary[d] > 0 && (
+                                        <tr key={d} className="border-b border-gray-200">
+                                            <td className="py-0.5 text-left font-semibold text-gray-700">
+                                               {d >= 20 ? `ธนบัตร ${d}` : (d < 1 ? `เหรียญ ${d*100} สต.` : `เหรียญ ${d}`)}
+                                            </td>
+                                            <td className="py-0.5 text-right text-gray-500">
+                                                {formatMoney(totalSummary[d] * d)}
+                                            </td>
+                                            <td className="py-0.5 text-right font-bold text-black">
+                                                {totalSummary[d]}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        {/* 2. Central Fund Card (If any) */}
+                        {centralFundPayable > 0 && (
+                            <div className="print-card border-2 border-dashed border-green-400 p-3 rounded-md bg-green-50 text-xs h-full flex flex-col relative">
+                                <div className="bg-green-700 text-white text-center py-1 rounded-sm mb-2 font-bold">★ เงินกองกลาง/เศษรวม</div>
+                                <div className="text-center mb-2">
+                                    <div className="text-[10px] text-green-800">เกิดจากเศษสตางค์ย่อยๆ รวมกัน</div>
+                                    <div className="text-lg font-bold text-green-900">{formatMoney(centralFundPayable)}</div>
+                                    <div className="text-[10px] text-green-800">บาท</div>
+                                </div>
+                                <div className="text-[9px] text-center text-gray-500 mb-2 italic">
+                                    "เงินส่วนนี้ให้เก็บไว้สมทบกองกลาง หรือฝากไว้กับยอดที่เยอะกว่า"
+                                </div>
+                                <div className="grid grid-cols-2 gap-x-2 gap-y-1 mt-auto">
+                                    {denoms.map(d => centralFundBreakdown[d] > 0 && (
+                                        <div key={d} className="flex justify-between border-b border-green-200 pb-0.5">
+                                            <span className="font-semibold text-gray-600">{d < 1 ? d*100+'สต' : d}</span>
+                                            <span className="font-bold text-black">{centralFundBreakdown[d]}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* 3. Individual Item Cards */}
+                        {itemsWithBreakdown.map((item, index) => (
+                            <div key={item.id} className="print-card border border-dashed border-gray-400 p-3 rounded-md text-xs relative flex flex-col h-full">
+                                <div className="absolute top-0 right-0 bg-gray-200 text-gray-600 px-1.5 py-0.5 text-[9px] rounded-bl-md font-mono">#{index + 1}</div>
+                                <h3 className="font-bold text-sm leading-tight pr-6 mb-1 h-10 overflow-hidden text-ellipsis line-clamp-2">{item.name || '(ไม่มีชื่อ)'}</h3>
+                                <div className="bg-blue-50 p-1.5 rounded mb-2 border border-blue-100">
+                                    <div className="flex justify-between text-[10px] text-gray-600"><span>คนละ: {formatMoney(item.amount)}</span><span>x {item.people}</span></div>
+                                    <div className="flex justify-between font-bold text-blue-900 border-t border-blue-200 mt-1 pt-1"><span>ใส่ซองได้:</span><span>{formatMoney(item.totalForItem)}</span></div>
+                                    {item.residual > 0 && <div className="text-[8px] text-red-400 text-right mt-0.5">*(เข้ากองกลาง {formatMoney(item.residual)})</div>}
+                                </div>
+                                <div className="grid grid-cols-2 gap-x-2 gap-y-1 mt-auto">
+                                    {denoms.map(d => item.itemTotalDenoms[d] > 0 && (
+                                        <div key={d} className="flex justify-between items-center text-[10px]">
+                                            <span className="text-gray-500">{d < 1 ? d*100+'สต' : d}</span>
+                                            <span className="font-bold bg-gray-100 px-1 rounded min-w-[20px] text-center">{item.itemTotalDenoms[d]}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+<div class="max-w-md mx-auto mt-8 mb-10 p-6 bg-white rounded-xl shadow-sm border border-gray-100 no-print">
+        
+        <h2 class="text-xl font-bold text-pink-600 mb-4">🤖 เกี่ยวกับผู้พัฒนา: ครูคณิต(ตัวปลอม)ที่รักคอมพิวเตอร์</h2>
+        
+        <div class="space-y-4 text-gray-600 text-sm leading-relaxed">
+            <p>
+                สวัสดีค่ะคุณครูทุกท่าน! ยินดีต้อนรับสู่พื้นที่เล็กๆ ของฉันนะคะ 
+                จริงๆ แล้วฉันจบ <strong>ครุศาสตรบัณฑิต สาขาวิชาคณิตศาสตร์</strong> 
+                และทำงานเป็นครูสอนเลขอยู่ค่ะ แต่ความลับคือ... 
+                <span class="font-bold text-pink-500">"ใจครูรักคอมพิวเตอร์มากกว่าสูตรคณิตนิดหน่อย!"</span> 😅
+            </p>
+
+            <p>
+                ฉันเข้าใจหัวอกคนเป็นครูดีว่า งานเอกสารและการเงินโรงเรียนมันปวดหัวแค่ไหน 
+                โดยเฉพาะเวลาต้องนับเงินเด็ก แยกเหรียญ แยกแบงค์เพื่อทำบัญชีทุนการศึกษาหรืออาหารกลางวัน 
+                ฉันเลยใช้ความชอบด้านการเขียนโปรแกรม (Coding) แอบสร้างเครื่องมือนี้ขึ้นมาใช้เอง 
+                แล้วก็คิดว่า <em>"เอ๊ะ! น่าจะเอามาแบ่งให้เพื่อนครูคนอื่นใช้ด้วย"</em>
+            </p>
+
+            <h3 class="font-bold text-gray-800 pt-2">🎯 ภารกิจของเว็บนี้ (KruMathDev)</h3>
+            <ul class="list-disc list-inside ml-2">
+                <li>ช่วยครูไทยลดเวลาทำงานเอกสารที่น่าเบื่อ</li>
+                <li>เปลี่ยนเรื่องตัวเลขยากๆ ให้จัดการได้ในคลิกเดียว</li>
+                <li>เป็น "ซับพอร์ต" (Support) ให้ครูได้มีเวลาไปสอนเด็กจริงๆ มากขึ้น</li>
+            </ul>
+
+            <p class="pt-2 italic border-t mt-4 pt-4 text-pink-800">
+                "หวังว่าเครื่องมือชิ้นนี้จะช่วยให้คุณครูได้กลับบ้านไวขึ้นสัก 10 นาทีก็ยังดีนะคะ" <br>
+                — จากใจครูคณิตฯ หลังห้องคอม 💖
+            </p>
+        </div>
+
+    </div>
+    ```
+</body>
+</html>
