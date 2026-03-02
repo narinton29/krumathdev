@@ -1,150 +1,233 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8695953108181712"
-     crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8695953108181712" crossorigin="anonymous"></script>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KruMathDev - คลังเครื่องมือครูยุคใหม่</title>
+    <title>KruMathDev - แหล่งเรียนรู้คณิตศาสตร์และเครื่องมือครูยุคดิจิทัล</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        body { 
-            font-family: 'Sarabun', sans-serif; 
-            line-height: 1.6; 
-        }
-        .gradient-bg { background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); }
+        body { font-family: 'Sarabun', sans-serif; background-color: #f8fafc; }
+        .timer-glow { box-shadow: 0 0 20px rgba(236, 72, 153, 0.2); }
     </style>
 </head>
-<body class="gradient-bg min-h-screen text-gray-700 flex flex-col">
+<body class="text-slate-800 flex flex-col min-h-screen">
 
-    <nav class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-                <i class="fa-solid fa-laptop-code text-pink-500 text-2xl pt-1"></i>
-                <span class="text-xl font-bold text-gray-800 leading-none">KruMathDev<span class="text-pink-500">.com</span></span>
-            </div>
-            
-            <button class="hidden md:flex items-center space-x-2 bg-gray-100 px-4 py-2 rounded-full text-gray-400 cursor-not-allowed text-sm font-medium" title="ระบบสมาชิก กำลังพัฒนาเร็วๆ นี้">
-                <i class="fa-solid fa-user-circle"></i>
-                <span>เข้าสู่ระบบ (Coming Soon)</span>
-            </button>
+    <nav class="bg-white border-b sticky top-0 z-50 shadow-sm">
+        <div class="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-black text-pink-600 flex items-center gap-2">
+                <i class="fa-solid fa-laptop-code text-pink-500"></i> KruMathDev
+            </h1>
+            <div class="hidden md:block text-sm text-slate-500 font-medium">✨ คลังนวัตกรรมและสื่อการสอนเพื่อครูไทย</div>
         </div>
     </nav>
 
-    <header class="text-center py-16 px-4">
-        <h1 class="text-3xl md:text-5xl font-bold text-gray-800 mb-4 leading-tight">
-            เปลี่ยนงานเอกสารยากๆ <br> <span class="text-pink-600">ให้เป็นเรื่องง่ายด้วยคลิกเดียว</span>
+    <header class="text-center py-12 px-4 bg-gradient-to-b from-white to-slate-50">
+        <h1 class="text-3xl md:text-5xl font-bold text-slate-800 mb-4 leading-tight">
+            ยกระดับการสอนและลดภาระงาน <br> <span class="text-pink-600">ด้วยเครื่องมือสำหรับครูยุคใหม่ 🚀</span>
         </h1>
-        <p class="text-lg text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">
-            รวมเครื่องมือช่วยสอนและจัดการงานโรงเรียน พัฒนาโดย "ครูคณิต(ตัวปลอม)ที่รักการเขียนโค้ด" <br class="hidden md:inline">
-            เพื่อคืนเวลาสอนให้ครูไทยทุกคน
+        <p class="text-lg text-slate-600 max-w-2xl mx-auto">
+            รวมโปรแกรมช่วยคำนวณ เทคนิคการสอนคณิตศาสตร์ และระบบช่วยบริหารเวลา เพื่อคืนความสุขและเวลาให้คุณครูทุกคน
         </p>
     </header>
 
-    <section class="max-w-6xl mx-auto px-4 pb-20 flex-grow">
-        <h2 class="text-2xl font-bold text-gray-800 mb-6 border-l-4 border-pink-500 pl-3 flex items-center h-8">
-            เครื่องมือที่เปิดให้ใช้งาน
+    <main class="max-w-5xl mx-auto px-6 py-8 flex-grow">
+        
+        <h2 class="text-2xl font-bold mb-6 text-slate-700 flex items-center border-l-4 border-pink-500 pl-4">
+            <i class="fa-solid fa-toolbox text-pink-500 mr-2"></i> เครื่องมือใช้งานฟรี (Free Tools)
         </h2>
         
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
             
-            <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition transform hover:-translate-y-1 overflow-hidden border border-gray-100 flex flex-col">
-                <div class="bg-blue-50 p-6 flex justify-center items-center h-40">
-                    <i class="fa-solid fa-coins text-6xl text-blue-500"></i>
-                </div>
-                <div class="p-6 flex flex-col flex-grow">
+            <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 hover:shadow-lg hover:border-pink-300 transition-all flex flex-col">
+                <div class="flex items-center gap-4 mb-4">
+                    <div class="w-16 h-16 bg-pink-100 rounded-2xl flex items-center justify-center text-pink-600 text-3xl">
+                        <i class="fa-solid fa-money-bill-wave"></i>
+                    </div>
                     <div>
-                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full font-bold">เปิดใช้งานแล้ว ✅</span>
-                        <h3 class="text-xl font-bold text-gray-800 mt-3">ระบบคำนวณแยกธนบัตร</h3>
-                        <p class="text-sm text-gray-500 mt-2 leading-relaxed">ช่วยนับเงินทุนการศึกษา อาหารกลางวัน แยกแบงค์แยกเหรียญให้อัตโนมัติ</p>
+                        <h3 class="text-xl font-bold text-slate-800">ระบบแยกธนบัตร 💰</h3>
+                        <p class="text-sm text-slate-500">Money Allocator System</p>
                     </div>
-
-                    <div class="my-4 p-2 bg-gray-50 border border-gray-200 border-dashed rounded text-center text-xs text-gray-400">
-                        <p class="mb-1">[พื้นที่โฆษณา]</p>
-                    </div>
-
-                    <a href="money.html" class="mt-auto block text-center w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition font-bold flex items-center justify-center gap-2">
-                        ใช้งานโปรแกรม <i class="fa-solid fa-arrow-right"></i>
-                    </a>
                 </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow border border-gray-100 opacity-90 flex flex-col relative overflow-hidden">
-                <div class="absolute top-0 right-0 bg-pink-500 text-white text-xs px-3 py-1 rounded-bl-lg font-bold z-10">New Idea!</div>
-                
-                <div class="bg-gray-50 p-6 flex justify-center items-center h-40">
-                    <i class="fa-solid fa-file-invoice-dollar text-6xl text-gray-400"></i>
-                </div>
-                <div class="p-6 flex flex-col flex-grow">
-                    <div>
-                        <span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full font-bold">Coming Soon</span>
-                        <h3 class="text-xl font-bold text-gray-800 mt-3">ระบบบริหารเงินโครงการ & ทะเบียนคุม</h3>
-                        <p class="text-sm text-gray-500 mt-2 mb-4 leading-relaxed">
-                            จัดการงบประมาณโครงการ บันทึกรายรับ-รายจ่าย พร้อมออกรายงานทะเบียนคุมส่งเขตฯ ได้ทันที
-                        </p>
-                    </div>
-                    <button disabled class="mt-auto w-full bg-gray-100 text-gray-400 py-2 rounded-lg cursor-not-allowed text-sm border border-gray-200">
-                        <i class="fa-solid fa-clock mr-1"></i> กำลังพัฒนา... รอติดตาม
-                    </button>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow border border-gray-100 opacity-80 flex flex-col">
-                <div class="bg-gray-50 p-6 flex justify-center items-center h-40">
-                    <i class="fa-solid fa-gamepad text-6xl text-gray-400"></i>
-                </div>
-                <div class="p-6 flex flex-col flex-grow">
-                    <div>
-                        <span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full font-bold">Coming Soon</span>
-                        <h3 class="text-xl font-bold text-gray-800 mt-3">มินิเกมฝึกสมองคณิตศาสตร์</h3>
-                        <p class="text-sm text-gray-500 mt-2 mb-4 leading-relaxed">กิจกรรมสนุกๆ สำหรับเปิดในคาบว่าง หรือชุมนุมคณิตฯ ให้เด็กๆ ได้ประลองปัญญา</p>
-                    </div>
-                    <button disabled class="mt-auto w-full bg-gray-100 text-gray-400 py-2 rounded-lg cursor-not-allowed text-sm border border-gray-200">
-                        <i class="fa-solid fa-clock mr-1"></i> กำลังพัฒนา... รอติดตาม
-                    </button>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <footer id="contact" class="bg-white border-t border-gray-200 mt-auto">
-        <div class="max-w-4xl mx-auto px-4 py-12 text-center">
-            
-            <h2 class="text-xl font-bold text-gray-800 mb-2">เกี่ยวกับ KruMathDev</h2>
-            <p class="text-gray-600 text-sm leading-relaxed mb-8">
-                เว็บไซต์นี้ตั้งใจทำขึ้นเพื่อลดภาระงานเอกสาร ให้ครูมีเวลาโฟกัสกับนักเรียนมากขึ้น <br>
-                หากมีข้อเสนอแนะ หรือต้องการจ้างงานพัฒนาโปรแกรม สามารถติดต่อได้ตามช่องทางด้านล่าง
-            </p>
-
-            <div class="bg-gray-50 rounded-2xl p-6 max-w-sm mx-auto border border-gray-100 shadow-sm">
-                <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">ช่องทางติดต่อเรา (Contact Us)</h3>
-                
-                <div class="mb-4">
-                    <p class="text-sm text-gray-500 mb-1">Email สำหรับติดต่องาน:</p>
-                    <a href="mailto:krumathdev@gmail.com" class="text-xl font-bold text-pink-600 hover:text-pink-700 transition break-all">
-                        krumathdev@gmail.com
-                    </a>
-                </div>
-
-                <a href="mailto:krumathdev@gmail.com" class="flex items-center justify-center gap-2 px-5 py-2 bg-white border border-gray-200 hover:border-pink-300 text-gray-700 hover:text-pink-600 rounded-full transition text-sm font-medium shadow-sm">
-                    <i class="fa-solid fa-paper-plane"></i> คลิกเพื่อส่งอีเมลทันที
+                <p class="text-slate-600 mb-6 flex-grow">
+                    สุดยอดผู้ช่วยครูการเงิน! กรอกแค่ยอดเงินรวม ระบบจะคำนวณแยกแบงค์พัน แบงค์ร้อย จนถึงเหรียญบาทให้เป๊ะๆ 100% หมดปัญหาเงินขาดเงินเกินเวลาแจกทุนนักเรียน
+                </p>
+                <a href="money.html" class="w-full text-center bg-pink-600 text-white py-3 rounded-xl font-bold hover:bg-pink-700 transition shadow-md">
+                    <i class="fa-solid fa-calculator mr-2"></i> ใช้งานโปรแกรมแยกเงิน
                 </a>
             </div>
 
-            <div class="text-xs text-gray-400 mt-10">
-                © 2026 KruMathDev.com All rights reserved. <br>
-                Made with 💖 by Math Teacher who loves Coding.
+            <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 timer-glow flex flex-col items-center justify-center text-center">
+                <h3 class="text-xl font-bold text-slate-800 mb-2">⏱️ นาฬิกาจับเวลาโฟกัส (Pomodoro)</h3>
+                <p class="text-sm text-slate-500 mb-4">เทคนิค 25 นาที ช่วยครูตรวจการบ้านและทำเอกสารให้เสร็จไวขึ้น</p>
+                
+                <div id="time-display" class="text-6xl font-black text-pink-600 mb-6 tracking-wider font-mono">25:00</div>
+                
+                <div class="flex gap-4 w-full">
+                    <button id="start-btn" onclick="startTimer()" class="flex-1 bg-green-500 text-white py-2 rounded-xl font-bold hover:bg-green-600 transition">
+                        <i class="fa-solid fa-play"></i> เริ่ม
+                    </button>
+                    <button id="pause-btn" onclick="pauseTimer()" class="flex-1 bg-yellow-500 text-white py-2 rounded-xl font-bold hover:bg-yellow-600 transition hidden">
+                        <i class="fa-solid fa-pause"></i> พัก
+                    </button>
+                    <button onclick="resetTimer()" class="flex-1 bg-slate-200 text-slate-700 py-2 rounded-xl font-bold hover:bg-slate-300 transition">
+                        <i class="fa-solid fa-rotate-right"></i> เริ่มใหม่
+                    </button>
+                </div>
             </div>
+
+        </div>
+
+        <hr class="border-slate-200 mb-12">
+
+        <article class="bg-white p-10 rounded-3xl shadow-sm border border-slate-200 mb-12">
+            <h2 class="text-3xl font-black text-slate-800 mb-8 border-b-2 border-pink-100 pb-4">
+                📚 มุมสาระ: คู่มือการสอนคณิตศาสตร์และพัฒนาตัวเองสำหรับครู
+            </h2>
+
+            <div class="space-y-10 text-slate-700 text-lg leading-relaxed">
+                
+                <section>
+                    <h3 class="text-2xl font-bold text-pink-600 mb-4">🌟 1. เทคนิค CPA (Concrete-Pictorial-Abstract) กุญแจสู่ความเข้าใจคณิตศาสตร์</h3>
+                    <p class="mb-4">
+                        คุณครูเคยสงสัยไหมคะว่า ทำไมนักเรียนบางคนถึงท่องสูตรคูณได้คล่องแคล่ว แต่พอเจอโจทย์ปัญหา (Word Problems) กลับทำไม่ได้? คำตอบคือเด็กอาจจะจำ "สัญลักษณ์" ได้ แต่ขาด "ความเข้าใจที่ลึกซึ้ง" (Conceptual Understanding) ค่ะ
+                    </p>
+                    <p class="mb-4">
+                        กระทรวงศึกษาธิการของประเทศสิงคโปร์ (ประเทศที่เด็กเก่งคณิตศาสตร์อันดับต้นๆ ของโลก) ได้นำแนวคิด <strong>CPA Approach</strong> มาใช้ ซึ่งประกอบด้วย 3 ขั้นตอนทองคำ:
+                    </p>
+                    <ul class="list-none space-y-4 mb-6 ml-4">
+                        <li class="bg-pink-50 p-4 rounded-xl border-l-4 border-pink-500">
+                            <strong>🧱 1. Concrete (รูปธรรม):</strong> ให้เด็กจับต้องของจริง เช่น การสอนเรื่องการบวกหลักสิบ ครูควรใช้บล็อกไม้ (Base Ten Blocks) หรือมัดหนังยางไม้ไอศกรีม ให้นักเรียนเห็นชัดๆ ว่า 10 หน่วย มัดรวมกันกลายเป็น 1 สิบ
+                        </li>
+                        <li class="bg-blue-50 p-4 rounded-xl border-l-4 border-blue-500">
+                            <strong>🖼️ 2. Pictorial (กึ่งรูปธรรม/ภาพ):</strong> เมื่อเด็กเข้าใจของจริงแล้ว ให้เปลี่ยนมาเป็นการวาดภาพ เช่น วาดรูปวงกลมแทนจำนวน หรือใช้ Bar Model ในการแก้โจทย์ปัญหา
+                        </li>
+                        <li class="bg-green-50 p-4 rounded-xl border-l-4 border-green-500">
+                            <strong>🔢 3. Abstract (นามธรรม):</strong> ขั้นตอนสุดท้ายคือการใช้ตัวเลขและเครื่องหมาย (+, -, x, ÷) เด็กที่ผ่าน 2 ขั้นแรกมา จะเข้าใจว่าตัวเลขเหล่านี้มีความหมายอย่างไร ไม่ใช่แค่เส้นขยุกขยิก
+                        </li>
+                    </ul>
+                    [Image of base ten blocks representing place value in mathematics]
+                </section>
+
+                <section>
+                    <h3 class="text-2xl font-bold text-pink-600 mb-4">⏳ 2. บริหารเวลาแบบ "โพโมโดโร" (Pomodoro Technique) เคล็ดลับเคลียร์งานเอกสาร</h3>
+                    <p class="mb-4">
+                        "งานสอนก็ต้องทำ งานประเมินก็ต้องส่ง งานการเงินก็ต้องเคลียร์" นี่คือชีวิตจริงของคุณครูไทยค่ะ! การนั่งทำงานติดต่อกัน 3-4 ชั่วโมง นอกจากจะทำให้สมองล้าแล้ว ยังทำให้ประสิทธิภาพลดลงด้วย ลองมาทำความรู้จักกับ <strong>เทคนิค Pomodoro</strong> กันค่ะ
+                    </p>
+                    <p class="mb-4">
+                        เทคนิคนี้คิดค้นโดย Francesco Cirillo โดยใช้หลักการง่ายๆ คือ <strong>"ทำงาน 25 นาที พัก 5 นาที"</strong> (คุณครูสามารถใช้ <em>"นาฬิกาจับเวลาโฟกัส"</em> ด้านบนของเว็บเราได้เลยนะคะ)
+                    </p>
+                    [Image of Pomodoro technique time management diagram]
+                    <h4 class="font-bold text-slate-800 mt-6 mb-2">ทำไมเทคนิคนี้ถึงเวิร์คสำหรับครู?</h4>
+                    <ul class="list-disc ml-6 space-y-2 text-slate-600">
+                        <li><strong>สร้างกรอบเวลาที่ชัดเจน:</strong> การบอกตัวเองว่า "ฉันจะตรวจการบ้านแค่ 25 นาที" ทำให้เรามีแรงฮึดมากกว่าการบอกว่า "ฉันต้องตรวจการบ้านกองภูเขานี้ให้เสร็จ"</li>
+                        <li><strong>ลดอาการ Burnout:</strong> การได้ลุกไปดื่มน้ำ หรือยืดเส้นยืดสาย 5 นาที ช่วยรีเฟรชสมอง ป้องกันโรคออฟฟิศซินโดรม</li>
+                        <li><strong>โฟกัสได้ 100%:</strong> ใน 25 นาทีนี้ ครูต้องปิดแจ้งเตือนไลน์ ไม่เล่นเฟซบุ๊ก รับรองว่างานประเมินวิทยฐานะ หรือแผนการสอน จะเสร็จไวขึ้นอย่างเหลือเชื่อค่ะ!</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3 class="text-2xl font-bold text-pink-600 mb-4">💻 3. ครูยุค AI: ทำไมการเขียนโปรแกรม (Coding) ถึงสำคัญ?</h3>
+                    <p class="mb-4">
+                        ปัจจุบันวิทยาการคำนวณถูกบรรจุในหลักสูตรแกนกลางแล้ว แต่ประโยชน์ของการ Coding ไม่ได้มีแค่สอนเด็กค่ะ คุณครูเองก็สามารถใช้ประโยชน์จากมันได้ 
+                        เว็บ <strong>KruMathDev.com</strong> เกิดจากไอเดียที่ว่า "ถ้างานการเงินมันคิดยากนัก ทำไมเราไม่เขียนโปรแกรมให้มันคิดให้ซะเลยล่ะ?"
+                    </p>
+                    <div class="bg-slate-100 p-6 rounded-2xl italic text-slate-600">
+                        "เราไม่จำเป็นต้องเป็นโปรแกรมเมอร์ที่เก่งที่สุด แต่เราสามารถใช้เทคโนโลยีมาแก้ปัญหาที่น่าเบื่อที่สุดในโรงเรียนได้"
+                    </div>
+                    <p class="mt-4">
+                        คุณครูสามารถเริ่มต้นจากการเรียนรู้การใช้ AI (อย่างเช่น ChatGPT หรือ Gemini) ในการช่วยเขียนแผนการสอน สร้างใบงาน หรือแม้แต่ให้ AI ช่วยเขียนสคริปต์ Excel เพื่อรวมคะแนนสอบนักเรียนอัตโนมัติ เทคโนโลยีเหล่านี้คือผู้ช่วยครูตัวจริงที่จะทำให้เรามีเวลาไปใส่ใจรอยยิ้มของเด็กๆ ได้มากขึ้นค่ะ
+                    </p>
+                </section>
+
+            </div>
+        </article>
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 mt-auto py-10 px-6">
+        <div class="max-w-4xl mx-auto flex flex-col items-center text-center">
+            
+            <h3 class="font-bold text-slate-800 text-lg mb-2">KruMathDev.com</h3>
+            <p class="text-sm text-slate-500 mb-6">สร้างสรรค์ด้วย 💖 โดยครูคณิตศาสตร์ เพื่อเพื่อนครูทั่วประเทศ</p>
+            
+            <div class="mb-6 bg-slate-50 py-3 px-6 rounded-2xl border border-slate-200 shadow-sm inline-block">
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">สถิติผู้เข้าชมเว็บไซต์</p>
+                <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fkrumathdev.com&count_bg=%23EC4899&title_bg=%23334155&icon=&icon_color=%23E7E7E7&title=Visitors&edge_flat=false" alt="Visitor Counter">
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-4 text-sm font-medium text-slate-500 mb-6">
+                <a href="index.html" class="hover:text-pink-600 transition">หน้าแรก</a>
+                <span class="text-slate-300">|</span>
+                <a href="money.html" class="hover:text-pink-600 transition">โปรแกรมแยกเงิน</a>
+                <span class="text-slate-300">|</span>
+                <a href="privacy.html" class="hover:text-pink-600 transition underline">นโยบายความเป็นส่วนตัว (Privacy Policy)</a>
+            </div>
+            
+            <p class="text-xs text-slate-400">© 2026 KruMathDev. All rights reserved.</p>
         </div>
     </footer>
-<div class="text-center pb-8">
-    <a href="privacy.html" class="text-xs text-gray-400 hover:text-pink-500 transition">นโยบายความเป็นส่วนตัว (Privacy Policy)</a>
-</div>
-<a href="privacy.html">นโยบายความเป็นส่วนตัว</a>
 
+    <script>
+        let timerInterval;
+        let timeLeft = 25 * 60; // 25 นาที (เป็นวินาที)
+        let isRunning = false;
+
+        const display = document.getElementById('time-display');
+        const startBtn = document.getElementById('start-btn');
+        const pauseBtn = document.getElementById('pause-btn');
+
+        function updateDisplay() {
+            let minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+            // เติมเลข 0 ข้างหน้าถ้าเป็นเลขตัวเดียว
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+            display.textContent = `${minutes}:${seconds}`;
+        }
+
+        function startTimer() {
+            if (!isRunning) {
+                isRunning = true;
+                startBtn.classList.add('hidden');
+                pauseBtn.classList.remove('hidden');
+                
+                timerInterval = setInterval(() => {
+                    timeLeft--;
+                    updateDisplay();
+                    
+                    if (timeLeft <= 0) {
+                        clearInterval(timerInterval);
+                        isRunning = false;
+                        alert("หมดเวลา 25 นาทีแล้วค่ะคุณครู! ยืดเส้นยืดสายพักผ่อน 5 นาทีนะคะ 💖");
+                        resetTimer();
+                    }
+                }, 1000);
+            }
+        }
+
+        function pauseTimer() {
+            clearInterval(timerInterval);
+            isRunning = false;
+            startBtn.classList.remove('hidden');
+            pauseBtn.classList.add('hidden');
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            isRunning = false;
+            timeLeft = 25 * 60; // กลับไปที่ 25 นาที
+            updateDisplay();
+            startBtn.classList.remove('hidden');
+            pauseBtn.classList.add('hidden');
+        }
+
+        // แสดงผลครั้งแรกตอนโหลดเว็บ
+        updateDisplay();
+    </script>
 </body>
 </html>
